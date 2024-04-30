@@ -8,12 +8,13 @@ import {
     Text,
     Image,
     Platform,
-    TouchableOpacity,StatusBar
+    TouchableOpacity, StatusBar,
+    ScrollView
 } from "react-native";
 import LottieView from 'lottie-react-native';
 
 const logoURL = require('../assets/RealpageLogo.png');
-const LoginPage = ({onLoginSuccess}) => {
+const LoginPage = ({ onLoginSuccess }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -36,44 +37,48 @@ const LoginPage = ({onLoginSuccess}) => {
         //     setPassword("");
         //     setErrors({});
         // }
-   
-            if (validateForm()) {
-               
-                if (username === "Admin" && password === "Password") {
 
-                    onLoginSuccess();
-                } else {
-                    setErrors({ general: "Invalid username or password" });
-                }
+        if (validateForm()) {
+
+            if (username === "Admin" && password === "Password") {
+
+                onLoginSuccess();
+            } else {
+                setErrors({ general: "Invalid username or password" });
             }
-        
+        }
+
     };
 
     return (
         <>
-<StatusBar />
-            <KeyboardAvoidingView
+            <StatusBar />
+            {/* <KeyboardAvoidingView
                 behavior="padding"
                 keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
                 style={styles.container}
-            >
-                <Text style={styles.header}>
+            > */}
+            <ScrollView>
+                {/* <Text style={styles.header}>
                     Welcome to Leave Portal
-                </Text>
-                <View style={{flex:1}}>
-                <LottieView source={require('C:/Users/rreddy/OneDrive - RealPage/RPEM-RN/RPEM/assets/loginpageAnimation.json')} autoPlay loop />
-
-                </View>
-                <View style={styles.form}>
-                    <Image
+                </Text> */}
+                <Image
                         source={logoURL}
                         style={{
                             width: 300,
                             height: 100,
-                            alignSelf: "center",
+                            // alignSelf: "center",
                             marginBottom: 10,
                         }}
                     />
+                <View style={{height:300,width:300,alignSelf:'center' }}>
+                
+                    <LottieView style={{flex:1}} source={require('../assets/loginpageAnimation.json')} autoPlay loop />
+
+                </View>
+                <View style={styles.form}>
+                    <Text style={{alignSelf:'center',fontSize:30,paddingBottom:20,fontWeight:"bold"}}>Login</Text>
+                    
                     <Text style={styles.label}>Username</Text>
                     <TextInput
                         style={styles.input}
@@ -100,10 +105,11 @@ const LoginPage = ({onLoginSuccess}) => {
                         <Text style={styles.errorText}>{errors.general}</Text>
                     ) : null}
                     <View style={styles.loginButton}>
-                    <Button title="Login" color='#ff4f00' onPress={handleSubmit} />
+                        <Button title="Login" color='#ff4f00' onPress={handleSubmit} />
                     </View>
                 </View>
-            </KeyboardAvoidingView>
+            {/* </KeyboardAvoidingView> */}
+            </ScrollView>
         </>
     );
 };
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         padding: 20,
         // alignSelf:'center'
-        textAlign:'center'
+        textAlign: 'center'
         // fontWeight: 'bold',
 
     },
@@ -122,7 +128,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: 20,
         // backgroundColor: "#f5f5f5",
-        backgroundColor:'#DCDEE6'
+        backgroundColor: '#DCDEE6'
     },
     form: {
         backgroundColor: "#ffffff",
@@ -139,7 +145,7 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        marginBottom: 5,
+        marginBottom: 7,
         fontWeight: "bold",
     },
     input: {
@@ -155,10 +161,10 @@ const styles = StyleSheet.create({
         color: "red",
         marginBottom: 10,
     },
-    loginButton:{
-        width:'50%',
-        alignSelf:'center',
-        padding:7
+    loginButton: {
+        width: '45%',
+        alignSelf: 'center',
+        padding: 7
     }
 });
 
