@@ -8,7 +8,8 @@ import {
     Text,
     Image,
     Platform,
-    TouchableOpacity, StatusBar,
+    TouchableOpacity,
+    StatusBar,
     ScrollView
 } from "react-native";
 import LottieView from 'lottie-react-native';
@@ -41,7 +42,6 @@ const LoginPage = ({ onLoginSuccess }) => {
         if (validateForm()) {
 
             if (username === "Admin" && password === "Password") {
-
                 onLoginSuccess();
             } else {
                 setErrors({ general: "Invalid username or password" });
