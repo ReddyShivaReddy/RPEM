@@ -11,8 +11,8 @@ export default function App() {
     <View style={{flex:1}}>
       {/* <LoginPage /> */}
       {/* <HomePage /> */}
-      {/* <AddEvent /> */}
-      <Test />
+      <AddEvent />
+      {/* <Test /> */}
     </View>
   );
 }
