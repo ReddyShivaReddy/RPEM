@@ -16,11 +16,9 @@ const AddEvent = () => {
   const handleTitleChange = (text) => {
     setTitle(text);
   };
-
   const handleDescriptionChange = (text) => {
     setDescription(text);
   };
-
   const handleImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -30,26 +28,36 @@ const AddEvent = () => {
       // maxHeight: 200,
       // maxWidth: 200,
     });
-
-    if (!result.cancelled) {
-      setImage(result.assets[0].uri);
-      console.log(result);
+    if (!result.canceled) {
+      const base64Image = await convertImageToBase64(result.assets[0].uri);
+      setImage(base64Image);
+      // setImage(result.assets[0].uri);
+      // console.log(result);
+      console.log(base64Image);
     } else {
       console.log("Image selection was canceled");
     }
   };
-
+  const convertImageToBase64 = async (imageUri) => {
+    const response = await fetch(imageUri);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+  };
   const handleIsFoodEventChange = (itemValue, itemIndex) => {
     setIsFoodEvent(itemValue === 'true');
   };
-
   const handleLocationChange = (text) => {
     setLocation(text);
   };
-
   const handleDateChange = (text) => {
     setDate(text);
-    console.log(date)
   };
 const data={
   "title":title,
@@ -58,19 +66,19 @@ const data={
   "isFoodEvent":isFoodEvent,
   "location":location,
   "date":date
-
 };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(data);
-    fetch("http://localhost:7777/api/", data, {
+    const response = await fetch("http://10.13.120.150:7777/api/Adding-Event", {
       method:'POST',
         headers: {
+          'Accept': 'application/json',
           "Content-Type": "application/json",
         },
+        body:JSON.stringify(data),
       })
-      .then((res) => {
-        setResFromAxios(res.data);
-      });
+      const responseData = await response.text();
+      console.log(responseData);
   };
 
   return (
@@ -84,7 +92,6 @@ const data={
           value={title}
           onChangeText={handleTitleChange}
           style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10 }}
-
         />
         <Text>About the Event</Text>
         <TextInput
@@ -142,12 +149,10 @@ const data={
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   form: {
     gap: 10,
     padding: 7,
-
   },
   submitButton: {
     width: '40%',
@@ -157,7 +162,6 @@ const styles = StyleSheet.create({
   imageStyle:{
     width:'100%',
     height:400
-    
   },
   imageSelector:{
     // alignSelf:'center',
@@ -168,7 +172,6 @@ const styles = StyleSheet.create({
     paddingVertical:30,
     paddingHorizontal:90
   },
-
 })
 
 export default AddEvent;
