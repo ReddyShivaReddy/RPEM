@@ -13,10 +13,10 @@ export default function App() {
     <View style={{flex:1}}>
       {/* <LoginPage /> */}
       {/* <HomePage /> */}
-      {/* <AddEvent /> */}
+      <AddEvent />
       {/* <Test /> */}
       {/* <RegisteredList /> */}
-      <ViewEvent />
+      {/* <ViewEvent /> */}
     </View>
   );
 }
