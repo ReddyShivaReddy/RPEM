@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StatusBar, Button, ScrollView, FlatList, Image, Dimensions } from 'react-native'
+import { View, Text, StatusBar, Button, ScrollView, FlatList, Image, Dimensions,StyleSheet } from 'react-native'
 
 const { width } = Dimensions.get('window');
 
@@ -8,7 +8,7 @@ const ViewEvent = () => {
     const [please,setPlease]=useState(true)
     useEffect(() => {
         async function fetchData() {
-            const resData = await fetch("http://10.13.118.29:7777/api/View-Event");
+            const resData = await fetch("http://192.168.2.106:7777/api/View-Event");
             const data = await resData.json();
             setEventData(data);
             console.log(data);
@@ -28,7 +28,7 @@ const ViewEvent = () => {
                 source={{
                     uri: item.image
                 }}
-                style={{ width: width, height: 300 }}
+                style={styles.imagestyle}
                 resizeMode='contain'
             />
             <View style={{ paddingTop:2,justifyContent:'flex-box'}}>
@@ -54,4 +54,13 @@ const ViewEvent = () => {
     )
 }
 
+const styles=StyleSheet.create({
+imagestyle:{
+    
+        width: width,
+        height: undefined,
+        aspectRatio: 1,
+    
+},
+})
 export default ViewEvent
