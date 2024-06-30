@@ -69,7 +69,7 @@ const data={
 };
   const handleSubmit = async () => {
     console.log(data);
-    const response = await fetch("http://192.168.2.106:7777/api/Adding-Event", {
+    const response = await fetch("http://192.168.76.150:7777/api/Adding-Event", {
       method:'POST',
         headers: {
           'Accept': 'application/json',
