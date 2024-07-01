@@ -34,7 +34,7 @@ const ViewEvent = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const resData = await fetch("http://192.168.174.150:7777/api/View-Event");
+            const resData = await fetch("http://10.13.118.116:7777/api/View-Event");
             const data = await resData.json();
             setEventData(data);
             // console.log(data);
@@ -52,7 +52,7 @@ const ViewEvent = () => {
 
     const register = async () => {
         console.log(registerData);
-        const response = await fetch("http://192.168.174.150:7777/api/register", {
+        const response = await fetch("http://10.13.118.116:7777/api/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

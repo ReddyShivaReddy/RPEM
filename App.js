@@ -6,6 +6,7 @@ import AddEvent from './components/AddEvent';
 import Test from './components/Test';
 import RegisteredList from './components/RegisteredList';
 import ViewEvent from './components/ViewEvent';
+import AllRegistrations from './components/AllRegistrations';
 
 
 export default function App() {
@@ -16,7 +17,8 @@ export default function App() {
       {/* <AddEvent /> */}
       {/* <Test /> */}
       {/* <RegisteredList /> */}
-      <ViewEvent />
+      {/* <ViewEvent /> */}
+      <AllRegistrations />
     </View>
   );
 }
