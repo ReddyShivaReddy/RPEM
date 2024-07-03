@@ -10,7 +10,7 @@ const Test = () => {
   const [please, setPlease] = useState(true)
   useEffect(() => {
     async function fetchData() {
-      const resData = await fetch("http://10.13.118.53:7777/api/View-Event");
+      const resData = await fetch("http://10.13.116.228:7777/api/View-Event");
       const data = await resData.json();
       setEventData(data);
       // console.log(data);

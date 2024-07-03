@@ -1,48 +1,70 @@
-import { View, Text, StatusBar, Button, ScrollView, FlatList, StyleSheet,TouchableOpacity } from 'react-native'
+import { View, Text, StatusBar, Button, ScrollView, FlatList, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
-
-
 
 const RegisteredList = () => {
 
   const [myRegistrations, setMyRegistrations] = useState();
   const [load, setLoad] = useState(true);
-  const userData = {
-    "Employee_Email": "shiva@gmail.com"
+  const [event, setEvent] = useState();
+
+  
+  const userEmail={
+    "Employee_Email":"reddy@gmail.com"
   }
+  
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://10.13.118.116:7777/api/my-registrations", {
+      const response = await fetch("http://10.13.118.157:7777/api/my-registrations", {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(userEmail),
       })
-
-
+      
+      
       const data = await response.json();
       setMyRegistrations(data);
       console.log(data);
     }
     fetchData();
   }, [load]);
+  
+  
+  const deleteEvent = async() => {
+    const userData = {
+      "Employee_Email": "reddy@gmail.com",
+      "Event":event
+    }
+    const response = await fetch("http://10.13.118.157:7777/api/deleteUser", {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json',
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+  })
+  fetchData();
 
-
+  }
 
 
   const Renderitem = ({ item }) => (
 
-      <View style={styles.item}>
-        <Text style={{  fontSize: 15 }}><Text style={{fontWeight:'bold'}}>Event: </Text>{item.Event}</Text>
-          <TouchableOpacity  style={[styles.button, { borderRadius: 18 }]}
+    <View style={styles.item}>
+      <Text style={{ fontSize: 15 }}><Text style={{ fontWeight: 'bold' }}>Event: </Text>{item.Event}</Text>
+      <TouchableOpacity style={[styles.button, { borderRadius: 18 }]}
+        onPress={()=>{
+          console.log(item.Event)
+          setEvent(item.Event)
+          deleteEvent();
+        }}
       >
-            <Text style={styles.buttonText}>Unregister</Text>
-          </TouchableOpacity>
-      </View>
+        <Text style={styles.buttonText}>Unregister</Text>
+      </TouchableOpacity>
+    </View>
   )
-
 
 
   return (
@@ -50,9 +72,9 @@ const RegisteredList = () => {
       <StatusBar />
       <View>
         <View style={{
-          backgroundColor:'whitesmoke'
+          backgroundColor: 'whitesmoke'
         }}>
-        <Text style={{fontSize:20,textAlign:'center',fontWeight:'bold',paddingVertical:20}}>My registrations</Text>
+          <Text style={{ fontSize: 20, textAlign: 'center', fontWeight: 'bold', paddingVertical: 20 }}>My registrations</Text>
         </View>
         <FlatList
           data={myRegistrations}
@@ -71,27 +93,23 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     marginHorizontal: 16,
     // borderRadius: 15,
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    // borderStyle:'solid',
-    // borderColor:'#4D455D',
-    // borderWidth:0.19
-    elevation:2
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    elevation: 2
 
-},
-button: {
-  backgroundColor: '#3FA2F6',
-  paddingVertical: 12,
-  paddingHorizontal: 24,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-buttonText: {
-  color: 'white',
-  fontSize: 15,
-  // fontWeight: 'bold',
-},
+  },
+  button: {
+    backgroundColor: '#3FA2F6',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+  },
 })
 export default RegisteredList

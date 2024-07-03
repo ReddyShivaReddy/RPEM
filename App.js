@@ -13,7 +13,6 @@ export default function App() {
   return (
     <View style={{flex:1}}>
       {/* <LoginPage /> */}
-      {/* <HomePage /> */}
       {/* <AddEvent /> */}
       {/* <Test /> */}
       {/* <RegisteredList /> */}
