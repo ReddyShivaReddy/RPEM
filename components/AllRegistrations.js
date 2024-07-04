@@ -18,10 +18,10 @@ const AllRegistrations = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://10.13.118.157:7777/api/registrations")
+            const response = await fetch("http://192.168.1.4:7777/api/registrations")
             const data = await response.json();
             setRegistrations(data);
-            // console.log(data);
+            console.log(data);
         }
         fetchData();
     }, [load]);
@@ -32,7 +32,7 @@ const AllRegistrations = () => {
     const registered = async (Event) => {
         // console.log(registerData);
         if (Event) {
-            const response = await fetch("http://10.13.118.157:7777/api/registered-list", {
+            const response = await fetch("http://192.168.1.4:7777/api/registered-list", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -77,7 +77,7 @@ const AllRegistrations = () => {
                 registered(item);
                 setModalVisible(true);
             }}>
-                <Text style={{ fontSize: 18 }}>{item.Event}</Text>
+                <Text style={{ fontSize: 18 }}>{item.title}</Text>
             </TouchableOpacity>
         </View>
     )
@@ -109,9 +109,9 @@ const AllRegistrations = () => {
     return (
         <View>
             <StatusBar />
-            <View style={{ padding: 20 }}>
+            {/* <View style={{ padding: 20 }}>
                 <Text style={{ fontSize: 18, textAlign: 'center', fontWeight: 'bold' }}>All Events</Text>
-            </View>
+            </View> */}
             <View >
                 <FlatList
                     data={Registrations}

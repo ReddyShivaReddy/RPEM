@@ -34,7 +34,7 @@ const ViewEvent = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const resData = await fetch("http://10.13.118.157:7777/api/View-Event");
+            const resData = await fetch("http://192.168.1.4:7777/api/View-Event");
             const data = await resData.json();
             setEventData(data);
             // console.log(data);
@@ -52,7 +52,7 @@ const ViewEvent = () => {
 
     const register = async () => {
         console.log(registerData);
-        const response = await fetch("http://10.13.118.157:7777/api/register", {
+        const response = await fetch("http://192.168.1.4:7777/api/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -93,7 +93,7 @@ const ViewEvent = () => {
                         uri: item.image
                     }}
                     style={styles.imagestyle}
-                    resizeMode='contain'
+                    // resizeMode='contain'
                 />
                 <View style={{ paddingTop: 2, justifyContent: 'flex-box' }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event : {item.title}</Text>
@@ -105,11 +105,10 @@ const ViewEvent = () => {
     )
 
     return (
-        <View>
+        <View style={{flex:1}}>
             <StatusBar />
-            <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center' }}>Events</Text>
+            {/* <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center' }}>Events</Text> */}
             <View style={{ alignSelf: 'center' }}>
-                {/* <Button title="Add Event" color="green" onPress={fetchData} /> */}
                 <FlatList
                     data={eventData}
                     keyExtractor={(item, index) => index.toString()}

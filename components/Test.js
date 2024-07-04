@@ -1,130 +1,104 @@
-import React, { useState, useEffect } from 'react'
-import { View, Text, StatusBar, Button, ScrollView, FlatList, Image, Dimensions, StyleSheet, TouchableOpacity, Modal } from 'react-native'
-import RegisterForm from './RegisterForm'
-const { width } = Dimensions.get('window');
-
-const Test = () => {
-  const [eventData, setEventData] = useState();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState({});
-  const [please, setPlease] = useState(true)
-  useEffect(() => {
-    async function fetchData() {
-      const resData = await fetch("http://10.13.116.228:7777/api/View-Event");
-      const data = await resData.json();
-      setEventData(data);
-      // console.log(data);
-    }
-    fetchData();
-  }, [please]);
-  const registerEvent=()=>{
-    console.log("hello");
-    <RegisterForm />
-  }
-  const Renderitem = ({ item }) => (
-    <TouchableOpacity onPress={() => {
-      setSelectedItem(item);
-      setModalVisible(true);
-    }}>
-      <View style={{
-        backgroundColor: 'lightgrey',
-        // padding: 4,
-        marginVertical: 7,
-        marginHorizontal: 1,
-        borderRadius: 10,
-        // width:width
-      }}>
-        <Image
-          source={{
-            uri: item.image
-          }}
-          style={styles.imagestyle}
-          resizeMode='contain'
-        />
-        <View style={{ paddingTop: 2, justifyContent: 'flex-box' }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event : {item.title}</Text>
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event Date : {item.date}</Text>
-        </View>
-
-      </View>
-    </TouchableOpacity>
-  )
-
-  return (
-    <View>
-      <StatusBar />
-      <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center' }}>Events</Text>
-      <View style={{ alignSelf: 'center' }}>
-        {/* <Button title="Add Event" color="green" onPress={fetchData} /> */}
-        <FlatList
-          data={eventData}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={Renderitem}
-        />
-      </View>
-      <Modal
-        contentContainerStyle={styles.modalContent}
-        visible={modalVisible}
-        animationType='fade'
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <ScrollView style={styles.modalContainer}>
-          <Text style={{ fontSize: 30, padding: 15, color: '#8AAEE0', fontWeight: 'bold', textDecorationLine: 'underline' }}>Event Details</Text>
-          {/* {selectedItem && Object.keys(selectedItem).map((key) => (
-                        <Text key={key} style={{ fontSize: 20, padding: 7, }}>
-                            <Text style={{ fontWeight: 'bold', }}>{key}: </Text>{selectedItem[key]}
-                        </Text>
-                    ))} */}
-
-
-          {selectedItem && Object.keys(selectedItem).map((key) => {
-            return (
-              <View>
-                {key == 'image' && (
-                  <Image
-                    source={{ uri: selectedItem[key] }}
-                    style={{ width: '100%', height: undefined, aspectRatio: 1 }}
-                    resizeMode="contain"
-                  />
-                )}
-                
-              </View>
-            );
-          })}
-          {selectedItem && Object.keys(selectedItem).map((key) => {
-            return (
-              <View>
-                {key !== 'image' && (
-                  <View>
-                    <Text key={key} style={{ fontWeight: 'bold' }}>
-                      {key}:
-                    </Text>
-                    <Text>{selectedItem[key]}</Text>
-                  </View>
-                )}
-                
-              </View>
-            );
-          })}
-
-          <View style={{ padding: 30, alignItems: 'center', justifyContent: 'center',display:'flex',flexDirection:'row',gap:10 }}>
-            <Button title='Register' color='#717999' onPress={registerEvent} />
-            <Button title='Close' color='#717999' onPress={() => setModalVisible(false)} />
-
-          </View>
+import React, { useRef, useState } from 'react';
+import { Animated, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+ 
+export default function AnimatedTextInput() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <AnimatedInput value={name} onChange={setName} placeholder="Name" />
+            <AnimatedInput value={email} onChange={setEmail} placeholder="Email" />
+            <AnimatedInput
+                value={address}
+                onChange={setAddress}
+                placeholder="Address"
+                multiline
+            />
         </ScrollView>
-      </Modal>
-    </View>
-  )
+    );
 }
-
+ 
+function AnimatedInput({ value, onChange, placeholder, multiline }) {
+    const [inputHeight, setHeight] = useState(null);
+    const [placeholderWidth, setWidth] = useState(null);
+    const animation = useRef(new Animated.Value(0)).current;
+    const translateY = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -inputHeight / 2],
+    });
+    const translateX = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -placeholderWidth / 4],
+    });
+    const scale = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [1, 0.5],
+    });
+    const onFocus = () => animate(1);
+    const onBlur = () => !value && animate(0);
+    const animate = val => {
+        Animated.spring(animation, {
+            toValue: val,
+            bounciness: 0,
+            useNativeDriver: true,
+        }).start();
+    };
+    return (
+        <View
+            style={styles.inputContainer}
+            onLayout={e => !inputHeight && setHeight(e.nativeEvent.layout.height)}>
+            <View style={{ height: inputHeight, ...styles.placeholderContainer }}>
+                <Animated.Text
+                    style={[
+                        styles.placeholder,
+                        { transform: [{ translateY }, { translateX }, { scale }] },
+                    ]}
+                    onTextLayout={e =>
+                        !placeholderWidth && setWidth(e.nativeEvent.lines[0]?.width || 0)
+                    }>
+                    {placeholder}
+                </Animated.Text>
+            </View>
+            <TextInput
+                style={[
+                    styles.input,
+                    multiline && { height: 100, textAlignVertical: 'top' },
+                ]}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                multiline={multiline}
+            />
+        </View>
+    );
+}
+ 
 const styles = StyleSheet.create({
-  imagestyle: {
-
-    width: width,
-    height: undefined,
-    aspectRatio: 1,
-
-  },
-})
-export default Test
+    container: {
+        padding: 20,
+    },
+    inputContainer: {
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#999',
+        marginBottom: 25,
+    },
+    input: {
+        paddingHorizontal: 10,
+        fontSize: 18,
+    },
+    placeholderContainer: {
+        position: 'absolute',
+        backgroundColor: 'red',
+        justifyContent: 'center',
+    },
+    placeholder: {
+        fontSize: 22,
+        position: 'absolute',
+        marginHorizontal: 5,
+        paddingHorizontal: 5,
+        backgroundColor: '#fff',
+        color: '#999',
+    },
+});

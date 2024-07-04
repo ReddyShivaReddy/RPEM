@@ -69,7 +69,7 @@ const data={
 };
   const handleSubmit = async () => {
     console.log(data);
-    const response = await fetch("http://10.13.118.157:7777/api/Adding-Event", {
+    const response = await fetch("http://192.168.1.4:7777/api/Adding-Event", {
       method:'POST',
         headers: {
           'Accept': 'application/json',
@@ -85,24 +85,27 @@ const data={
     <ScrollView style={{ flex: 1 }}>
       <StatusBar />
       <View style={styles.form}>
-        <Text style={{ fontSize: 25, alignSelf: 'center', marginBottom: 20 }}>New Event Form</Text>
+        {/* <View style={{backgroundColor:'#3FA2F6'}}>
+
+        <Text style={{ fontSize: 25, alignSelf: 'center', marginBottom: 20, }}>Add New Event</Text>
+        </View> */}
         <Text>Event Name</Text>
         <TextInput
           placeholder="Event Title"
           value={title}
           onChangeText={handleTitleChange}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10 }}
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10,borderRadius:10 }}
         />
         <Text>About the Event</Text>
         <TextInput
-          placeholder="Description"
+          placeholder="Description about Event"
           value={description}
           onChangeText={handleDescriptionChange}
-          style={{ height: 150, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, textAlignVertical: 'top', padding: 10, }}
+          style={{ height: 150, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10, textAlignVertical: 'top', padding: 10, }}
           multiline={true}
         />
         <Text>Type of Event</Text>
-        <View style={{ borderWidth: 1, borderColor: 'grey', }}>
+        <View style={{ borderWidth: 1, borderColor: 'grey',borderRadius:10  }}>
           <Picker
             selectedValue={isFoodEvent ? 'true' : 'false'}
             onValueChange={handleIsFoodEventChange}
@@ -116,19 +119,20 @@ const data={
           placeholder="Location"
           value={location}
           onChangeText={handleLocationChange}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10 }}
+          style={{ height: 40, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10 }}
         />
         <Text>Event Date</Text>
         <TextInput
           placeholder="Date"
           value={date}
           onChangeText={handleDateChange}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, }}
+          style={{ height: 40, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10, }}
         />
-        <View style={{ width: '60%', alignSelf: 'center' }}>
+        <View style={{ width: 220, alignSelf: 'center',justifyContent:'center' }}>
           <TouchableOpacity onPress={handleImagePicker} style={styles.imageSelector}>
-          <Icon name='upload' color='#717999' size={30} style={{alignSelf:'center'}} />
-            <Text>Add Event Image</Text>
+           <Image source={require('../assets/downloadIcon.png')} style={{width:50,height:50}} />
+          {/* <Icon name='upload' color='#717999' size={30} style={{alignSelf:'center'}} /> */}
+            <Text style={{fontSize:15,marginTop:13}}>Add Event Image</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -138,12 +142,12 @@ const data={
             source={{ uri: image }}
             style={styles.imageStyle}
           />
-          <Text>Image uploaded Successfully</Text>
+          {/* <Text>Image uploaded Successfully</Text> */}
           </View>
         )}
         </View>
         <View style={styles.submitButton}>
-          <Button title="Add Event" color="green" onPress={handleSubmit} />
+          <Button title="Add Event" color="#3FA2F6" onPress={handleSubmit} />
         </View>
       </View>
     </ScrollView>
@@ -165,12 +169,15 @@ const styles = StyleSheet.create({
   },
   imageSelector:{
     // alignSelf:'center',
+     display:'flex', flexDirection:'row',
+     gap:10,
     borderWidth:1,  
     borderStyle:'dashed',
     marginTop:10,
     borderRadius:10,
-    paddingVertical:30,
-    paddingHorizontal:90
+    padding:20
+    // paddingVertical:30,
+    // paddingHorizontal:90
   },
 })
 
