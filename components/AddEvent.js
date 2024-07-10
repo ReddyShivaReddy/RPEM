@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Image, Button, TouchableOpacity, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import * as ImagePicker from 'expo-image-picker';
-import Icon from 'react-native-vector-icons/FontAwesome';
-// import axios from 'axios';
+
 
 const AddEvent = () => {
   const [title, setTitle] = useState('');
@@ -69,7 +68,7 @@ const data={
 };
   const handleSubmit = async () => {
     console.log(data);
-    const response = await fetch("http://192.168.1.4:7777/api/Adding-Event", {
+    const response = await fetch("http://10.13.118.130:7777/api/Adding-Event", {
       method:'POST',
         headers: {
           'Accept': 'application/json',

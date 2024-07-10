@@ -18,7 +18,7 @@ const AllRegistrations = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://192.168.1.4:7777/api/registrations")
+            const response = await fetch("http://10.13.118.130:7777/api/registrations")
             const data = await response.json();
             setRegistrations(data);
             console.log(data);
@@ -32,7 +32,7 @@ const AllRegistrations = () => {
     const registered = async (Event) => {
         // console.log(registerData);
         if (Event) {
-            const response = await fetch("http://192.168.1.4:7777/api/registered-list", {
+            const response = await fetch("http://10.13.118.130:7777/api/registered-list", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -42,7 +42,7 @@ const AllRegistrations = () => {
             })
             const data = await response.json();
             setSelectedItem(data)
-            // console.log(data)
+            console.log(data)
 
             setCount(data.length);
             let veg = 0;

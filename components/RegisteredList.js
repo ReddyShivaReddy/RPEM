@@ -9,12 +9,12 @@ const RegisteredList = () => {
 
   
   const userEmail={
-    "Employee_Email":"reddy@gmail.com"
+    "Employee_Email":"shiva@gmail.com"
   }
   
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://192.168.1.4:7777/api/my-registrations", {
+      const response = await fetch("http://10.13.118.130:7777/api/my-registrations", {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -34,10 +34,10 @@ const RegisteredList = () => {
   
   const deleteEvent = async() => {
     const userData = {
-      "Employee_Email": "reddy@gmail.com",
+      "Employee_Email": "shiva@gmail.com",
       "Event":event
     }
-    const response = await fetch("http://192.168.1.4:7777/api/deleteUser", {
+    const response = await fetch("http://10.13.118.130:7777/api/deleteUser", {
       method: 'POST',
       headers: {
           'Accept': 'application/json',

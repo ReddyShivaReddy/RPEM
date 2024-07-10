@@ -5,7 +5,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useState, } from 'react';
 import LoginPage from './components/LoginPage';
-import HomePage from './components/HomePage';
 import AddEvent from './components/AddEvent';
 import Test from './components/Test';
 import RegisteredList from './components/RegisteredList';
