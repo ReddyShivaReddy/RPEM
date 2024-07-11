@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StatusBar, Button, ScrollView, FlatList, Image, Dimensions, StyleSheet, TouchableOpacity, Modal, TextInput, } from 'react-native'
+import { View, Text, StatusBar, Button, ScrollView, FlatList, Image, CheckBox, Dimensions, StyleSheet, TouchableOpacity, Modal, TextInput, } from 'react-native'
 
 const { width } = Dimensions.get('window');
 
@@ -33,13 +33,13 @@ const ViewEvent = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const resData = await fetch("http://10.13.118.130:7777/api/View-Event");
+            const resData = await fetch("http://10.13.118.81:7777/api/View-Event");
             const data = await resData.json();
             setEventData(data);
             // console.log(data);
         }
         fetchData();
-    }, [please]);
+    }, []);
 
 
     const registerData = {
@@ -51,7 +51,7 @@ const ViewEvent = () => {
 
     const register = async () => {
         console.log(registerData);
-        const response = await fetch("http://10.13.118.130:7777/api/register", {
+        const response = await fetch("http://10.13.118.81:7777/api/register", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -69,7 +69,7 @@ const ViewEvent = () => {
 
 
 
-    const registerEvent = ({ item = {selectedItem} }) => {
+    const registerEvent = ({ item = { selectedItem } }) => {
         // console.log(item.selectedItem.title);
         setSelectedItem2(item);
         setModalVisible2(true);
@@ -81,10 +81,10 @@ const ViewEvent = () => {
             setModalVisible(true);
         }}>
             <View style={{
-                backgroundColor: 'lightgrey',
-                marginVertical: 7,
-                marginHorizontal: 1,
-                borderRadius: 10,
+                backgroundColor: 'white',
+                marginVertical: 10,
+                marginHorizontal: 0,
+                // borderRadius: 10,
 
             }}>
                 <Image
@@ -92,11 +92,11 @@ const ViewEvent = () => {
                         uri: item.image
                     }}
                     style={styles.imagestyle}
-                    // resizeMode='contain'
+                // resizeMode='contain'
                 />
-                <View style={{ paddingTop: 2, justifyContent: 'flex-box' }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event : {item.title}</Text>
-                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event Date : {item.date}</Text>
+                <View style={{ paddingTop: 2, justifyContent: 'flex-box', marginHorizontal: 15 }}>
+                    <Text><Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event : </Text>{item.title}</Text>
+                    <Text><Text style={{ fontWeight: 'bold', fontSize: 15 }}>Event Date : </Text>{item.date}</Text>
                 </View>
 
             </View>
@@ -104,7 +104,7 @@ const ViewEvent = () => {
     )
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <StatusBar />
             {/* <Text style={{ fontWeight: 'bold', fontSize: 20, alignSelf: 'center' }}>Events</Text> */}
             <View style={{ alignSelf: 'center' }}>
@@ -159,7 +159,12 @@ const ViewEvent = () => {
                                                             : key === 'location'
                                                                 ? '📍 ' : key
                                             }
-                                            <Text>{selectedItem[key]}</Text>
+                                            <Text>{selectedItem[key] === 'true'
+                                                ? <Text >Yes </Text>
+                                                : selectedItem[key] === 'false'
+                                                    ? <Text>No</Text>
+                                                    : selectedItem[key]}
+                                            </Text>
                                         </Text>
                                     </View>
                                 )}
@@ -168,8 +173,8 @@ const ViewEvent = () => {
                     })}
 
                     <View style={{ padding: 30, alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'row', gap: 20 }}>
-                        <Button title='Register' color='#717999' onPress={registerEvent} />
-                        <Button title='   Close   ' color='#717999' onPress={() => setModalVisible(false)} />
+                        <Button title='Register' color='#3572EF' onPress={registerEvent} />
+                        <Button title='   Close   ' color='#3572EF' onPress={() => setModalVisible(false)} />
                     </View>
                 </ScrollView>
             </Modal>
@@ -190,29 +195,29 @@ const ViewEvent = () => {
                 onRequestClose={() => setModalVisible2(false)}
             >
                 <ScrollView style={styles.modalContainer}>
-                    <Text style={{ fontSize: 30, padding: 15, color: '#8AAEE0', fontWeight: 'bold', textAlign: 'center' }}>Register Event</Text>
+                    <Text style={{ fontSize: 30, padding: 15, color: 'black', fontWeight: 'bold', textAlign: 'center' }}>Register Event</Text>
 
-                    <View style={{ paddingHorizontal: 10, borderRadius: 0.3 }}>
-                        <Text>
+                    <View style={{ paddingHorizontal: 10, borderRadius: 0.3, }}>
+                        <Text style={{ marginTop: 8 }}>
                             Enter your name
                         </Text>
                         <TextInput
                             value={Name}
                             onChangeText={handleNameChange}
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10 }}
+                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10, marginTop: 7 }}
                         />
-                        <Text>
+                        <Text style={{ marginTop: 8 }}>
                             Enter your email
                         </Text>
                         <TextInput
                             value={Email}
                             onChangeText={handleEmailChange}
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10 }}
+                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10, marginTop: 7, marginBottom: 7 }}
                         />
                         {selectedItem && Object.keys(selectedItem).map((key) => {
-                            
+
                             return (
-                                <View>
+                                <View >
                                     {key === 'title' && (
                                         <View>
                                             <Text key={key} style={{ fontWeight: 'normal' }}>
@@ -223,27 +228,28 @@ const ViewEvent = () => {
                                             </Text>
                                             <TextInput
                                                 value={selectedItem[key]}
-                                                style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10 }}
+                                                style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10, marginTop: 7 }}
                                             />
                                         </View>
                                     )}
                                 </View>
                             );
                         })}
-                        <Text>
+                        <Text style={{ marginTop: 8 }}>
                             Veg / Non-Veg
                         </Text>
                         <TextInput
                             value={Food}
                             onChangeText={handleFoodChange}
-                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10 }}
+                            style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10, borderRadius: 10, marginTop: 7 }}
                         />
+                        
                     </View>
 
 
                     <View style={{ padding: 30, alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'row', gap: 20 }}>
-                        <Button title='Register' color='#717999' onPress={register} />
-                        <Button title='   Close   ' color='#717999' onPress={() => setModalVisible2(false)} />
+                        <Button title='Register' color='#3572EF' onPress={register} />
+                        <Button title='Close' color='#3572EF' onPress={() => setModalVisible2(false)} />
                     </View>
                 </ScrollView>
             </Modal>

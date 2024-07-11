@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Button, ScrollView, FlatList, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, StatusBar, Image, Button, ScrollView, FlatList, StyleSheet, TouchableOpacity, Modal,ImageBackground, Touchable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 
@@ -18,13 +18,13 @@ const AllRegistrations = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://10.13.118.130:7777/api/registrations")
+            const response = await fetch("http://10.13.118.81:7777/api/registrations")
             const data = await response.json();
             setRegistrations(data);
             console.log(data);
         }
         fetchData();
-    }, [load]);
+    }, []);
 
     // const registerData = Event
 
@@ -32,7 +32,7 @@ const AllRegistrations = () => {
     const registered = async (Event) => {
         // console.log(registerData);
         if (Event) {
-            const response = await fetch("http://10.13.118.130:7777/api/registered-list", {
+            const response = await fetch("http://10.13.118.81:7777/api/registered-list", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -47,15 +47,13 @@ const AllRegistrations = () => {
             setCount(data.length);
             let veg = 0;
             let nonVeg = 0;
-
             data.forEach(item => {
-                if (item.Food === 'Veg') {
+                if (item.Food === 'Veg' || item.Food === 'veg' || item.Food === 'VEG') {
                     veg++;
                 } else {
                     nonVeg++;
                 }
             });
-
             setFoodData({
                 veg,
                 nonVeg
@@ -68,17 +66,23 @@ const AllRegistrations = () => {
 
     const Renderitem = ({ item }) => (
 
-        <View>
-            <TouchableOpacity style={{ backgroundColor: '#F5F5F5', padding: 20, marginTop: 17 }} onPress={() => {
-                // console.log(item)
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20 }}>
+            <View style={{ width: '85%', borderWidth: 0.9, marginVertical: 10, justifyContent: 'center', alignSelf: 'center', borderRadius: 5 }}>
+                <TouchableOpacity style={{ backgroundColor: '#F6F5F5', padding: 20, borderRadius: 10 }} onPress={() => {
 
-                setEvent(item);
-                // setSelectedItem(item);
-                registered(item);
-                setModalVisible(true);
-            }}>
-                <Text style={{ fontSize: 18 }}>{item.title}</Text>
-            </TouchableOpacity>
+                    setEvent(item);
+                    // setSelectedItem(item);
+                    registered(item);
+                    setModalVisible(true);
+                }}>
+                    <Text style={{ fontSize: 18, }}>{item.title}</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={{ alignItems: 'flex-end', justifyContent: 'center',}}>
+                <TouchableOpacity style={{marginBottom:4}}>
+                    <Image source={require('../assets/edit.png')} style={{width:55,height:55}} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 
@@ -86,16 +90,22 @@ const AllRegistrations = () => {
 
 
     const RenderitemModal = ({ item }) => {
-        // setCount(count+1)
 
         console.log(selectedItem);
         setHeading(item.Event)
         return (
-            <View>
-                <View style={{ backgroundColor: '#F5F5F5', padding: 20, marginTop: 7 }}>
-                    <Text>{item.Employee_Email}</Text>
-                    <Text>{item.Employee_Name}</Text>
-                    <Text>{item.Food}</Text>
+            <View style={{ marginHorizontal: 10 }}>
+                <View style={{ backgroundColor: '#F5F5F5', padding: 20, marginTop: 7, display: 'flex', flexDirection: 'row', gap: 10, borderRadius: 15, borderColor: 'black', borderWidth: 1 }}>
+                    <View>
+                        <Image source={require('../assets/profile.png')} style={{ width: 50, height: 50 }} />
+                    </View>
+                    <View>
+                        <Text style={{ fontSize: 17, fontWeight: 'bold' }}>{item.Employee_Email}</Text>
+                        <Text>{item.Employee_Name}</Text>
+                        <View style={{ borderWidth: 1, borderradius: 17, borderColor: '#8576FF', width: 80, }}>
+                            <Text style={{ color: '#8576FF', textAlign: 'center' }}>{item.Food}</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
         );
@@ -103,15 +113,10 @@ const AllRegistrations = () => {
 
 
 
-
-
-
     return (
-        <View>
+        <View style={{flex:1,backgroundColor:'white'}}>
             <StatusBar />
-            {/* <View style={{ padding: 20 }}>
-                <Text style={{ fontSize: 18, textAlign: 'center', fontWeight: 'bold' }}>All Events</Text>
-            </View> */}
+
             <View >
                 <FlatList
                     data={Registrations}
@@ -120,26 +125,24 @@ const AllRegistrations = () => {
                 />
 
 
-
-
-
-
-
-
-
-
                 <Modal
                     // contentContainerStyle={styles.modalContent}
                     visible={modalVisible}
                     animationType='fade'
                     onRequestClose={() => setModalVisible(false)}
                 >
-                    <Text style={{ fontSize: 20, paddingLeft: 10, textAlign: 'center', fontWeight: 'bold' }}>{heading}</Text>
-                    <View style={{ display: 'flex', flexDirection: 'column' }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', marginTop: 20, gap: 10, marginLeft: 10 }}>
+                        <TouchableOpacity onPress={() => setModalVisible(false)}>
+                            <Image source={require('../assets/back.png')} style={{ width: 30, height: 30, }} />
+                        </TouchableOpacity>
+                        <Text style={{ fontSize: 23, paddingLeft: 10, fontWeight: 'bold', color: 'black', }}>{heading}</Text>
+                    </View>
+                    <View style={{ display: 'flex', flexDirection: 'column', marginLeft: 10 }}>
                         <Text style={{ textAlign: 'left', fontSize: 15, margin: 7, paddingRight: 10 }}>Total Registrations: {count}</Text>
-                        <Text style={{ textAlign: 'left', fontSize: 15, margin: 7, paddingRight: 10 }}>Veg: {foodData.veg}</Text>
-                        <Text style={{ textAlign: 'left', fontSize: 15, margin: 7, paddingRight: 10 }}>Non-Veg: {foodData.nonVeg}</Text>
-
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Text style={{ textAlign: 'left', fontSize: 15, margin: 7, paddingRight: 10, }}>Veg: <Text style={{ color: '#8576FF' }}>{foodData.veg} </Text></Text>
+                            <Text style={{ textAlign: 'left', fontSize: 15, margin: 7, paddingRight: 10 }}>Non-Veg: <Text style={{ color: '#8576FF' }}>{foodData.nonVeg}</Text></Text>
+                        </View>
                     </View>
 
                     <FlatList
@@ -147,9 +150,9 @@ const AllRegistrations = () => {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={RenderitemModal}
                     />
-                    <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
+                    {/* <View style={{ margin: 10, alignItems: 'center', justifyContent: 'center' }}>
                         <Button title='   Close   ' color='#717999' onPress={() => setModalVisible(false)} style={{ position: 'sticky' }} />
-                    </View>
+                    </View> */}
                 </Modal>
             </View>
         </View>

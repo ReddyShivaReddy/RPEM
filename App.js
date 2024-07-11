@@ -11,6 +11,8 @@ import RegisteredList from './components/RegisteredList';
 import ViewEvent from './components/ViewEvent';
 import AllRegistrations from './components/AllRegistrations';
 import Photos from './components/Photos';
+import Logout from './components/Logout';
+
 
 
 // export default function App() {
@@ -37,7 +39,7 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const handleLogin = () => {
     setIsLoggedIn(true);
   }
@@ -57,12 +59,12 @@ function App() {
               // title: "My Profile",
               drawerLabel: "Explore",
               drawerActiveTintColor: "white",
-              drawerActiveBackgroundColor: "#717999",
+              drawerActiveBackgroundColor: "#3FA2F6",
               drawerContentStyle: {
-                backgroundColor: "#DCDEE6",
+                backgroundColor: "white",
               },
               headerStyle: {
-                backgroundColor: '#717999'
+               backgroundColor: 'white'
               },
             }}
           />
@@ -70,24 +72,25 @@ function App() {
             title: "Add Event",
             drawerLabel: "Add Event",
             drawerActiveTintColor: "white",
-            drawerActiveBackgroundColor: "#717999",
+            drawerActiveBackgroundColor: "#3FA2F6",
             drawerContentStyle: {
-              backgroundColor: "#DCDEE6",
+              backgroundColor: "white",
             },
+            // headerShown: false,
             headerStyle: {
-              backgroundColor: '#717999'
+              backgroundColor: 'white'
             },
           }} />
           <Drawer.Screen name="AllRegistrations" component={AllRegistrations} options={{
             title: "Events Posted",
             drawerLabel: "Events Posted",
             drawerActiveTintColor: "white",
-            drawerActiveBackgroundColor: "#717999",
+            drawerActiveBackgroundColor: "#3FA2F6",
             drawerContentStyle: {
-              backgroundColor: "#DCDEE6",
+              backgroundColor: "white",
             },
             headerStyle: {
-              backgroundColor: '#717999'
+              backgroundColor: 'white'
             },
           }} />
           <Drawer.Screen name="RegisteredList" component={RegisteredList} options={{
@@ -95,13 +98,20 @@ function App() {
             title: "My Registrations",
             drawerLabel: "My Registrations",
             drawerActiveTintColor: "white",
-            drawerActiveBackgroundColor: "#717999",
+            drawerActiveBackgroundColor: "#3FA2F6",
+            
             drawerContentStyle: {
-              backgroundColor: "#DCDEE6",
+              // backgroundColor: "#DCDEE6",
+              backgroundColor: "white",
+
+
+
 
             },
             headerStyle: {
-              backgroundColor: '#7D8ABC'
+              // backgroundColor: '#7D8ABC'
+              backgroundColor: 'white'
+
             },
           }} />
           <Drawer.Screen name="Photos" component={Photos} options={{
@@ -109,13 +119,13 @@ function App() {
             title: "Event Photos",
             drawerLabel: "Event Photos",
             drawerActiveTintColor: "white",
-            drawerActiveBackgroundColor: "#717999",
+            drawerActiveBackgroundColor: "#3FA2F6",
             drawerContentStyle: {
-              backgroundColor: "#DCDEE6",
+              backgroundColor: "white",
 
             },
             headerStyle: {
-              backgroundColor: '#7D8ABC'
+              backgroundColor: 'white'
             },
           }} />
 
@@ -124,12 +134,12 @@ function App() {
             drawerLabel: "Logout",
 
             drawerActiveTintColor: "white",
-            drawerActiveBackgroundColor: "#717999",
+            drawerActiveBackgroundColor: "#3FA2F6",
             drawerContentStyle: {
-              backgroundColor: "#DCDEE6",
+              backgroundColor: "white",
             },
             headerStyle: {
-              backgroundColor: '#717999'
+             backgroundColor: 'white'
             },
           }} />
 
@@ -138,6 +148,13 @@ function App() {
     </NavigationContainer>
   );
 }
+
+
+
+
+
+
+
 
 // function TabNavigator() {
 //   return (

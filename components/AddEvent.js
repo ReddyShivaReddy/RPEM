@@ -68,7 +68,7 @@ const data={
 };
   const handleSubmit = async () => {
     console.log(data);
-    const response = await fetch("http://10.13.118.130:7777/api/Adding-Event", {
+    const response = await fetch("http://10.13.118.81:7777/api/Adding-Event", {
       method:'POST',
         headers: {
           'Accept': 'application/json',
@@ -81,7 +81,7 @@ const data={
   };
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1,backgroundColor:'white' }}>
       <StatusBar />
       <View style={styles.form}>
         {/* <View style={{backgroundColor:'#3FA2F6'}}>
@@ -93,18 +93,18 @@ const data={
           placeholder="Event Title"
           value={title}
           onChangeText={handleTitleChange}
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1, paddingLeft: 10,borderRadius:10 }}
+          style={{ height: 40, borderWidth: 1, paddingLeft: 10,borderRadius:10 }}
         />
         <Text>About the Event</Text>
         <TextInput
           placeholder="Description about Event"
           value={description}
           onChangeText={handleDescriptionChange}
-          style={{ height: 150, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10, textAlignVertical: 'top', padding: 10, }}
+          style={{ height: 150,borderRadius:10 , borderWidth: 1, paddingLeft: 10, textAlignVertical: 'top', padding: 10, }}
           multiline={true}
         />
         <Text>Type of Event</Text>
-        <View style={{ borderWidth: 1, borderColor: 'grey',borderRadius:10  }}>
+        <View style={{ borderWidth: 1,borderRadius:10  }}>
           <Picker
             selectedValue={isFoodEvent ? 'true' : 'false'}
             onValueChange={handleIsFoodEventChange}
@@ -118,14 +118,14 @@ const data={
           placeholder="Location"
           value={location}
           onChangeText={handleLocationChange}
-          style={{ height: 40, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10 }}
+          style={{ height: 40,borderRadius:10 , borderWidth: 1, paddingLeft: 10 }}
         />
         <Text>Event Date</Text>
         <TextInput
           placeholder="Date"
           value={date}
           onChangeText={handleDateChange}
-          style={{ height: 40, borderColor: 'gray',borderRadius:10 , borderWidth: 1, paddingLeft: 10, }}
+          style={{ height: 40,borderRadius:10 , borderWidth: 1, paddingLeft: 10, }}
         />
         <View style={{ width: 220, alignSelf: 'center',justifyContent:'center' }}>
           <TouchableOpacity onPress={handleImagePicker} style={styles.imageSelector}>
@@ -156,6 +156,8 @@ const styles = StyleSheet.create({
   form: {
     gap: 10,
     padding: 7,
+    marginHorizontal:10,
+    backgroundColor:'white'
   },
   submitButton: {
     width: '40%',

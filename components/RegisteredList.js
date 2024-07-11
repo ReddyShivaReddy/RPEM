@@ -7,14 +7,14 @@ const RegisteredList = () => {
   const [load, setLoad] = useState(true);
   const [event, setEvent] = useState();
 
-  
-  const userEmail={
-    "Employee_Email":"shiva@gmail.com"
+
+  const userEmail = {
+    "Employee_Email": "shiva@realpage.com"
   }
-  
+
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://10.13.118.130:7777/api/my-registrations", {
+      const response = await fetch("http://10.13.118.81:7777/api/my-registrations", {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -22,30 +22,31 @@ const RegisteredList = () => {
         },
         body: JSON.stringify(userEmail),
       })
-      
-      
+
+
       const data = await response.json();
       setMyRegistrations(data);
       console.log(data);
     }
     fetchData();
-  }, [load]);
-  
-  
-  const deleteEvent = async() => {
+  }, []);
+
+
+  const deleteEvent = async () => {
     const userData = {
-      "Employee_Email": "shiva@gmail.com",
-      "Event":event
+      "Employee_Email": "shiva@realpage.com",
+      "Event": event
     }
-    const response = await fetch("http://10.13.118.130:7777/api/deleteUser", {
+    console.log(userData)
+    const response = await fetch("http://10.13.118.81:7777/api/deleteUser", {
       method: 'POST',
       headers: {
-          'Accept': 'application/json',
-          "Content-Type": "application/json",
+        'Accept': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(userData),
-  })
-  fetchData();
+    })
+    fetchData();
 
   }
 
@@ -55,7 +56,7 @@ const RegisteredList = () => {
     <View style={styles.item}>
       <Text style={{ fontSize: 15 }}><Text style={{ fontWeight: 'bold' }}>Event: </Text>{item.Event}</Text>
       <TouchableOpacity style={[styles.button, { borderRadius: 18 }]}
-        onPress={()=>{
+        onPress={() => {
           console.log(item.Event)
           setEvent(item.Event)
           deleteEvent();
@@ -68,9 +69,9 @@ const RegisteredList = () => {
 
 
   return (
-    <View>
+    <View style={{flex:1,backgroundColor:'white'}}>
       <StatusBar />
-      <View>
+      <View >
         <View style={{
           backgroundColor: 'whitesmoke'
         }}>
@@ -88,11 +89,11 @@ const RegisteredList = () => {
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'white',
     padding: 20,
     marginVertical: 4,
     marginHorizontal: 16,
-    // borderRadius: 15,
+    borderRadius: 15,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',

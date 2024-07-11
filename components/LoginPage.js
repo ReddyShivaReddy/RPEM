@@ -109,6 +109,7 @@ const LoginPage = ({ onLoginSuccess }) => {
                     </View>
                 </View>
             {/* </KeyboardAvoidingView> */}
+            
             </ScrollView>
         </>
     );
