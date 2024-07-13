@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Image, Button, ScrollView, FlatList, StyleSheet, TouchableOpacity, Modal,ImageBackground, Touchable } from 'react-native'
+import { View, Text, StatusBar, Image, Button, ScrollView, FlatList, StyleSheet, TouchableOpacity, Modal, ImageBackground, Touchable } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
 
@@ -6,6 +6,7 @@ const AllRegistrations = () => {
     const [Registrations, setRegistrations] = useState();
     const [load, setLoad] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [editmodalVisible, setEditModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
     const [Event, setEvent] = useState(null)
     const [count, setCount] = useState(0)
@@ -18,7 +19,7 @@ const AllRegistrations = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const response = await fetch("http://10.13.118.81:7777/api/registrations")
+            const response = await fetch("http://10.13.118.27:7777/api/registrations")
             const data = await response.json();
             setRegistrations(data);
             console.log(data);
@@ -32,7 +33,7 @@ const AllRegistrations = () => {
     const registered = async (Event) => {
         // console.log(registerData);
         if (Event) {
-            const response = await fetch("http://10.13.118.81:7777/api/registered-list", {
+            const response = await fetch("http://10.13.118.27:7777/api/registered-list", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -78,15 +79,17 @@ const AllRegistrations = () => {
                     <Text style={{ fontSize: 18, }}>{item.title}</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{ alignItems: 'flex-end', justifyContent: 'center',}}>
-                <TouchableOpacity style={{marginBottom:4}}>
-                    <Image source={require('../assets/edit.png')} style={{width:55,height:55}} />
+            <View style={{ alignItems: 'flex-end', justifyContent: 'center', }}>
+                <TouchableOpacity style={{ marginBottom: 4 }} onPress={() => { console.log("edit") }}>
+                    <Image source={require('../assets/edit.png')} style={{ width: 55, height: 55 }} />
                 </TouchableOpacity>
             </View>
         </View>
     )
 
+    const RenderitemEditModal = ({ item }) => {
 
+    }
 
 
     const RenderitemModal = ({ item }) => {
@@ -114,7 +117,7 @@ const AllRegistrations = () => {
 
 
     return (
-        <View style={{flex:1,backgroundColor:'white'}}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <StatusBar />
 
             <View >

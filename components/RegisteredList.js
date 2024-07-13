@@ -14,7 +14,7 @@ const RegisteredList = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://10.13.118.81:7777/api/my-registrations", {
+      const response = await fetch("http://10.13.118.27:7777/api/my-registrations", {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -38,7 +38,7 @@ const RegisteredList = () => {
       "Event": event
     }
     console.log(userData)
-    const response = await fetch("http://10.13.118.81:7777/api/deleteUser", {
+    const response = await fetch("http://10.13.118.27:7777/api/deleteUser", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
