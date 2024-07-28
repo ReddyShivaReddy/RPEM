@@ -8,9 +8,10 @@ const AddEvent = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-  const [isFoodEvent, setIsFoodEvent] = useState(true);
+  const [isFoodEvent, setIsFoodEvent] = useState('Food Event');
   const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
+  const [eventType,setEventType]=useState('Realpage Event')
 
   const handleTitleChange = (text) => {
     setTitle(text);
@@ -31,7 +32,6 @@ const AddEvent = () => {
       const base64Image = await convertImageToBase64(result.assets[0].uri);
       setImage(base64Image);
       // setImage(result.assets[0].uri);
-      // console.log(result);
       console.log(base64Image);
     } else {
       console.log("Image selection was canceled");
@@ -50,7 +50,10 @@ const AddEvent = () => {
     });
   };
   const handleIsFoodEventChange = (itemValue, itemIndex) => {
-    setIsFoodEvent(itemValue === 'true');
+    setIsFoodEvent(itemValue);
+  };
+  const handleEventType = (itemValue, itemIndex) => {
+    setEventType(itemValue);
   };
   const handleLocationChange = (text) => {
     setLocation(text);
@@ -64,11 +67,12 @@ const data={
   "image":image,
   "isFoodEvent":isFoodEvent,
   "location":location,
-  "date":date
+  "date":date,
+  "Event":eventType
 };
   const handleSubmit = async () => {
     console.log(data);
-    const response = await fetch("http://10.13.118.27:7777/api/Adding-Event", {
+    const response = await fetch("http://192.168.1.8:7777/api/Adding-Event", {
       method:'POST',
         headers: {
           'Accept': 'application/json',
@@ -93,7 +97,7 @@ const data={
           placeholder="Event Title"
           value={title}
           onChangeText={handleTitleChange}
-          style={{ height: 40, borderWidth: 1, paddingLeft: 10,borderRadius:10 }}
+          style={{ height: 45, borderWidth: 1, paddingLeft: 10,borderRadius:10 ,fontSize:17}}
         />
         <Text>About the Event</Text>
         <TextInput
@@ -103,14 +107,24 @@ const data={
           style={{ height: 150,borderRadius:10 , borderWidth: 1, paddingLeft: 10, textAlignVertical: 'top', padding: 10, }}
           multiline={true}
         />
+        <Text>Is this a Food Event?</Text>
+        <View style={{ borderWidth: 1,borderRadius:10  }}>
+          <Picker
+            selectedValue={isFoodEvent}
+            onValueChange={handleIsFoodEventChange}
+          >
+            <Picker.Item label="Food Event" value="Food Event" />
+            <Picker.Item label="Non-Food Event" value="Non-Food Event" />
+          </Picker>
+        </View>
         <Text>Type of Event</Text>
         <View style={{ borderWidth: 1,borderRadius:10  }}>
           <Picker
-            selectedValue={isFoodEvent ? 'true' : 'false'}
-            onValueChange={handleIsFoodEventChange}
+            selectedValue={eventType}
+            onValueChange={handleEventType}
           >
-            <Picker.Item label="Food Event" value="true" />
-            <Picker.Item label="Non-Food Event" value="false" />
+            <Picker.Item label="Realpage Event" value="Realpage Event" />
+            <Picker.Item label="Unofficial Event" value="Unofficial Event" />
           </Picker>
         </View>
         <Text>Event Location</Text>
@@ -118,14 +132,14 @@ const data={
           placeholder="Location"
           value={location}
           onChangeText={handleLocationChange}
-          style={{ height: 40,borderRadius:10 , borderWidth: 1, paddingLeft: 10 }}
+          style={{ height: 45,borderRadius:10 , borderWidth: 1, paddingLeft: 10,fontSize:17 }}
         />
         <Text>Event Date</Text>
         <TextInput
           placeholder="Date"
           value={date}
           onChangeText={handleDateChange}
-          style={{ height: 40,borderRadius:10 , borderWidth: 1, paddingLeft: 10, }}
+          style={{ height: 45,borderRadius:8 , borderWidth: 1, paddingLeft: 10,fontSize:17 }}
         />
         <View style={{ width: 220, alignSelf: 'center',justifyContent:'center' }}>
           <TouchableOpacity onPress={handleImagePicker} style={styles.imageSelector}>

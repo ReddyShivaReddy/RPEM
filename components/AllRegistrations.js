@@ -11,19 +11,30 @@ const AllRegistrations = () => {
     const [Event, setEvent] = useState(null)
     const [count, setCount] = useState(0)
     const [heading, setHeading] = useState()
+  const [refresh, setRefresh] = useState(false)
+
     const [foodData, setFoodData] = useState({
         veg: 0,
         nonVeg: 0
     });
-
-
+    const fetchData=async ()=> {
+        const response = await fetch("http://192.168.1.8:7777/api/registrations")
+        const data = await response.json();
+        setRegistrations(data);
+        console.log(data);
+    }
+    const handleRefresh=()=>{
+        setRefresh(true);
+        fetchData();
+        setRefresh(false)
+    }
     useEffect(() => {
-        async function fetchData() {
-            const response = await fetch("http://10.13.118.27:7777/api/registrations")
-            const data = await response.json();
-            setRegistrations(data);
-            console.log(data);
-        }
+        // async function fetchData() {
+        //     const response = await fetch("http://192.168.1.8:7777/api/registrations")
+        //     const data = await response.json();
+        //     setRegistrations(data);
+        //     console.log(data);
+        // }
         fetchData();
     }, []);
 
@@ -33,7 +44,7 @@ const AllRegistrations = () => {
     const registered = async (Event) => {
         // console.log(registerData);
         if (Event) {
-            const response = await fetch("http://10.13.118.27:7777/api/registered-list", {
+            const response = await fetch("http://192.168.1.8:7777/api/registered-list", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -67,22 +78,25 @@ const AllRegistrations = () => {
 
     const Renderitem = ({ item }) => (
 
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20 }}>
-            <View style={{ width: '85%', borderWidth: 0.9, marginVertical: 10, justifyContent: 'center', alignSelf: 'center', borderRadius: 5 }}>
-                <TouchableOpacity style={{ backgroundColor: '#F6F5F5', padding: 20, borderRadius: 10 }} onPress={() => {
-
-                    setEvent(item);
-                    // setSelectedItem(item);
-                    registered(item);
-                    setModalVisible(true);
-                }}>
-                    <Text style={{ fontSize: 18, }}>{item.title}</Text>
-                </TouchableOpacity>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
+            <View style={{ width: '100%', borderWidth: 0.9, marginVertical: 7, justifyContent: 'center', alignSelf: 'center', borderRadius: 5, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', }}>
+                <View style={{ alignSelf: 'center' }}>
+                    <Text style={{ fontSize: 18, alignSelf: 'center', marginHorizontal: 6 }}>{item.title}</Text></View>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                    <TouchableOpacity style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, marginHorizontal: 3 }} onPress={() => {
+                        setEvent(item);
+                        // setSelectedItem(item);
+                        registered(item);
+                        setModalVisible(true);
+                    }}>
+                        <Image source={require('../assets/eye.png')} style={{ width: 40, height: 40 }} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ justifyContent: 'center', marginRight: 10 }} onPress={() => { console.log("edit") }}>
+                        <Image source={require('../assets/edit.png')} style={{ width: 37, height: 37 }} />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={{ alignItems: 'flex-end', justifyContent: 'center', }}>
-                <TouchableOpacity style={{ marginBottom: 4 }} onPress={() => { console.log("edit") }}>
-                    <Image source={require('../assets/edit.png')} style={{ width: 55, height: 55 }} />
-                </TouchableOpacity>
             </View>
         </View>
     )
@@ -125,6 +139,8 @@ const AllRegistrations = () => {
                     data={Registrations}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={Renderitem}
+                    refreshing={refresh}
+                    onRefresh={handleRefresh}
                 />
 
 
